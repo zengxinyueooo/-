@@ -79,7 +79,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot.version}</version>
                 <configuration>
-                    <mainClass>com.example.library_manager_system.LibraryManagerSystemApplication</mainClass>
+                    <mainClass>com.zxy.library_manager_system.LibraryManagerSystemApplication</mainClass>
                     <skip>true</skip>
                 </configuration>
                 <executions>

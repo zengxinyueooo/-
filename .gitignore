@@ -31,3 +31,4 @@ build/
 
 ### VS Code ###
 .vscode/
+/src/main/java/com/zxy/library_manager_system/mapper/
