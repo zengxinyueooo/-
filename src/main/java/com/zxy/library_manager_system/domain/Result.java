@@ -1,5 +1,7 @@
-package com.zxy.library_manager_system.utils;
+package com.zxy.library_manager_system.domain;
 
+import com.zxy.library_manager_system.domain.Admin;
+import com.zxy.library_manager_system.domain.User;
 import lombok.Data;
 
 /**
@@ -35,5 +37,11 @@ public class Result {
     public Result(boolean flag,String msg){
         this.flag = flag;
         this.msg = msg;
+    }
+
+    public Result(boolean b, String admin_login_successful, Admin admin) {
+    }
+
+    public Result(boolean b, String user_login_successful, User user) {
     }
 }

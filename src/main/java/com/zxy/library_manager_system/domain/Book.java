@@ -39,6 +39,15 @@ public class Book {
 
     @TableField(value = "remain")
     private Integer remain;
+
+
+    public static boolean decreaseBookQuantity(int bookId) {
+        return false;
+    }
+
+    public static boolean increaseBookQuantity(int bookId) {
+        return false;
+    }
 }
 /*
 @TableId

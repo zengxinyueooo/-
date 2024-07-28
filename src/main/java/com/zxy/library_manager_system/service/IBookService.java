@@ -2,7 +2,9 @@ package com.zxy.library_manager_system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zxy.library_manager_system.domain.Book;
-import org.springframework.stereotype.Service;
+import com.zxy.library_manager_system.domain.Result;
+
+import java.util.List;
 
 /**
  * @author zxy
@@ -11,5 +13,11 @@ import org.springframework.stereotype.Service;
 //通过@Service 注解标注的类会被Spring容器自动扫描并管理，可以通过依赖注入的方式在其他组件中使用该服务类。
 
 public interface IBookService extends IService<Book>{
+
+    void decreaseBookQuantity(int bookId);
+
+    void increaseBookQuantity(int bookId);
+
+    List<Book> getAllBooks(int pageNum, int pageSize);
 
 }

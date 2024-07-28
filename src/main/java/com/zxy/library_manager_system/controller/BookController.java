@@ -1,9 +1,11 @@
 package com.zxy.library_manager_system.controller;
 
+import com.zxy.library_manager_system.domain.Admin;
 import com.zxy.library_manager_system.domain.Book;
 import com.zxy.library_manager_system.service.IBookService;
-import com.zxy.library_manager_system.utils.Result;
+import com.zxy.library_manager_system.domain.Result;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,30 +23,64 @@ public class BookController {
     @PostMapping
     public Result save(@RequestBody Book book){
         boolean flag = bookService.save(book);
-        return new Result(flag, flag?"添加成功":"添加失败");
+        return new Result(flag, flag ? "添加成功" : "添加失败");
     }
 
     //removeById 按序号删除
     @DeleteMapping("/{id}")
     public Result delete(@PathVariable Integer id){
-        return new Result(bookService.removeById(id));
+        boolean flag = bookService.removeById(id);
+        return new Result(flag, flag ? "删除成功" : "删除失败");
     }
 
-    //updateById 按序号修改
+    //update
     @PutMapping
     public Result update(@RequestBody Book book){
-        return new Result(bookService.updateById(book));
+        boolean flag = bookService.updateById(book);
+        return new Result(flag, flag ? "修改成功" : "修改失败");
     }
 
     //getById 获取的时候要先判断有没有了
     @GetMapping("/{id}")
     public Result getById(@PathVariable Integer id){
-        return new Result(true, bookService.getById(id));
+        Book book = bookService.getById(id);
+        if (book != null) {
+            return new Result(true, book);
+        } else {
+            return new Result(false, "Book not found");
+        }
     }
 
     //list 获取全部 要判断
-    @GetMapping
-    public Result getAll(){
-        return new Result(true, bookService.list());
+   /* @GetMapping
+    public Result getAllBooks(){
+        List<Book> bookList = bookService.list();
+        if (!bookList.isEmpty()) {
+            return new Result(true, bookList);
+        } else {
+            return new Result(false, "No books found");
+        }
+    }*/
+
+    @GetMapping("/all")
+    public ResponseEntity<Result> getAllBooks(@RequestParam int pageNum, @RequestParam int pageSize) {
+        List<Book> books = bookService.getAllBooks(pageNum, pageSize);
+        if (books != null && !books.isEmpty()) {
+            return ResponseEntity.ok(new Result(true, "Success", (Admin) books));
+        } else {
+            return ResponseEntity.ok(new Result(false, "No books found", (Admin) null));
+        }
+    }
+
+    @PostMapping("/decreaseBookQuantity")
+    public Result decreaseBookQuantity(@RequestParam int bookId) {
+        bookService.decreaseBookQuantity(bookId);
+        return new Result(true, "Book quantity decreased");
+    }
+
+    @PostMapping("/increaseBookQuantity")
+    public Result increaseBookQuantity(@RequestParam int bookId) {
+        bookService.increaseBookQuantity(bookId);
+        return new Result(true, "Book quantity increased");
     }
 }

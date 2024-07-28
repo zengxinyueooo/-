@@ -4,3 +4,10 @@ spring:
     username: root
     password: 1314527788qwe
     driver-class-name: com.mysql.cj.jdbc.Driver
+
+
+page helper:
+  helper-dialect: library-manager-system
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
