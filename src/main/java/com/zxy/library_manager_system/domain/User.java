@@ -13,6 +13,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,27 +23,34 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("book")//数据库表的名称
+@ApiModel(description = "读者实体类")
 public class User {
-
-    @TableId(value = "id", type = IdType.AUTO )
+    @ApiModelProperty(value = "用户ID",required = true)
+    @TableId(value = "user_id", type = IdType.AUTO)
     private Integer id;
 
-    @TableField(value = "username")
+    @ApiModelProperty(value = "用户名",required = true)
+    @TableField(value = "user_name")
     private String username;
 
-    @TableField(value = "password")
+    @ApiModelProperty(value = "密码",required = true)
+    @TableField(value = "user_pwd")
     private String password;
 
+    @ApiModelProperty(value = "姓名",required = true)
     @TableField(value = "name")
     private String name;
 
-    @TableField(value = "gender")  // 性别：M男 F女 U未知  枚举类型
+    @ApiModelProperty(value = "性别",required = true) //性别：M男 F女 U未知 枚举类型
+    @TableField(value = "user_gender")
     private String gender;
 
-    @TableField(value = "address")
+    @ApiModelProperty(value = "地址",required = true)
+    @TableField(value = "user_address")
     private String address;
 
-    @TableField(value = "phone")
+    @ApiModelProperty(value = "电话号码",required = true)
+    @TableField(value = "user_phone")
     private String phone;
 
     public String getPhoneNumber() {
@@ -53,5 +62,6 @@ public class User {
     }
 
     public Object getPageNo() {
+        return null;
     }
 }

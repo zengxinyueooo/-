@@ -12,6 +12,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,32 +22,41 @@ import org.springframework.stereotype.Component;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("book")//数据库表的名称
+@TableName("book") // 数据库表的名称
+@ApiModel(description = "图书实体类")
 public class Book {
-    @TableId(value = "id", type = IdType.AUTO )
+
+    @ApiModelProperty(value = "图书ID", required = true)
+    @TableId(value = "book_id", type = IdType.AUTO)
     private Integer id;
 
-    @TableField(value = "name")
+    @ApiModelProperty(value = "图书名称", required = true)
+    @TableField(value = "book_name")
     private String name;
 
-    @TableField(value = "author")
+    @ApiModelProperty(value = "作者", required = true)
+    @TableField(value = "book_author")
     private String author;
 
-    @TableField(value = "price")
+    @ApiModelProperty(value = "价格", required = true)
+    @TableField(value = "book_price")
     private Integer price;
 
-    @TableField(value = "introduction")
+    @ApiModelProperty(value = "简介", required = true)
+    @TableField(value = "book_introduction")
     private String introduction;
 
-    @TableField(value = "remain")
+    @ApiModelProperty(value = "库存", required = true)
+    @TableField(value = "quantity")
     private Integer remain;
 
 
-    public static boolean decreaseBookQuantity(int bookId) {
+    public boolean decreaseBookQuantity() {
         return false;
     }
 
-    public static boolean increaseBookQuantity(int bookId) {
+    // 可能需要调整为实例方法
+    public boolean increaseBookQuantity() {
         return false;
     }
 }

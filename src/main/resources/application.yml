@@ -5,9 +5,18 @@ spring:
     password: 1314527788qwe
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+  mvc:
+    path match:
+      matching-strategy: ant_path_matcher
+
 
 page helper:
   helper-dialect: library-manager-system
   reasonable: true
   support-methods-arguments: true
   params: count=countSql
+
+
+knife4j:
+  enable: true
+

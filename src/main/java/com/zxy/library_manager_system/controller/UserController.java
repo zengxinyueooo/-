@@ -5,6 +5,8 @@ import com.zxy.library_manager_system.domain.BorrowInfo;
 import com.zxy.library_manager_system.domain.User;
 import com.zxy.library_manager_system.service.IUserService;
 import com.zxy.library_manager_system.domain.Result;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,12 +14,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/user")
+@Api(tags = "读者功能")
 public class UserController {
 
     @Autowired
     private IUserService userService;
 
     @PostMapping("/login")
+    @ApiOperation("登录")
     public Result login(@RequestParam String username, @RequestParam String password) {
         User user = userService.login(username, password);
         if (user != null) {
@@ -28,6 +32,7 @@ public class UserController {
     }
 
     @PostMapping("/register")
+    @ApiOperation("注册")
     public Result register(@RequestBody User user) {
         try {
             userService.register(user);
@@ -38,6 +43,7 @@ public class UserController {
     }
 
     @GetMapping("/getUserById")
+    @ApiOperation("根据ID查看用户信息")
     public Result getUserById(@RequestParam String id) {
         User user = userService.getUserById(id);
         if (user != null) {
@@ -48,6 +54,7 @@ public class UserController {
     }
 
     @PostMapping("/updateUserInfo")
+    @ApiOperation("修改用户信息")
     public Result updateUserInfo(@RequestBody User user) {
         try {
             userService.updateUserInfo(user);
@@ -58,18 +65,21 @@ public class UserController {
     }
 
     @GetMapping("/searchBookByName")
+    @ApiOperation("根据书名搜索书籍")
     public Result searchBookByName(@RequestParam String name) {
         List<Book> books = userService.searchBookByName(name);
         return new Result(true, books);
     }
 
     @GetMapping("/getBorrowInfo")
+    @ApiOperation("根据用户ID获取用户借阅信息")
     public Result getBorrowInfoByUserId(@RequestParam int userId) {
         List<BorrowInfo> borrowInfoList = userService.getBorrowInfoByUserId(userId);
         return new Result(true, borrowInfoList);
     }
 
     @PostMapping("/returnBook")
+    @ApiOperation("归还书籍")
     public Result returnBook(@RequestParam int userId, @RequestParam int bookId) {
         try {
             userService.returnBook(userId, bookId);
@@ -80,6 +90,7 @@ public class UserController {
     }
 
     @PostMapping("/borrowBook")
+    @ApiOperation("借阅书籍")
     public Result borrowBook(@RequestParam int userId, @RequestParam int bookId) {
         try {
             userService.borrowBook(userId, bookId);

@@ -2,6 +2,8 @@ package com.zxy.library_manager_system.domain;
 
 import com.zxy.library_manager_system.domain.Admin;
 import com.zxy.library_manager_system.domain.User;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -12,9 +14,13 @@ import lombok.Data;
  */
 //使用lombok快速开发
 @Data
+@ApiModel(value = "返回类型")
 public class Result {
+    @ApiModelProperty(value = "是否成功", example = "true")
     private boolean flag;
+    @ApiModelProperty(value = "数据")
     private Object data;
+    @ApiModelProperty(value = "提示信息",example = "成功")
     private String msg;
 
     public Result(boolean flag){
