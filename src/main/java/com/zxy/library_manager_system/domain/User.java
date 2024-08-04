@@ -19,15 +19,17 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Collection;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("book")//数据库表的名称
+@TableName("user")//数据库表的名称
 @ApiModel(description = "读者实体类")
 public class User {
     @ApiModelProperty(value = "用户ID",required = true)
     @TableId(value = "user_id", type = IdType.AUTO)
-    private Integer id;
+    private String id;
 
     @ApiModelProperty(value = "用户名",required = true)
     @TableField(value = "user_name")
@@ -53,15 +55,6 @@ public class User {
     @TableField(value = "user_phone")
     private String phone;
 
-    public String getPhoneNumber() {
-        return this.phone;
-    }
 
-    public String getPassword() {
-        return this.password;
-    }
 
-    public Object getPageNo() {
-        return null;
-    }
 }

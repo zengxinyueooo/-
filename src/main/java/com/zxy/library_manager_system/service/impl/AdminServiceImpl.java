@@ -38,27 +38,26 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
 
     @Override
     public List<Book> getAllBooks() {
-        return BookMapper.getAllBooks();
+        return adminMapper.getAllBooks();
     }
 
 
     public Book getBookById(int id) {
-        return bookMapper.getById(id);
+        return adminMapper.getBookById(id);
     }
 
     @Override
-    public void saveBook(Book book) {
-        bookMapper.save(book);
+    public void saveBook(Book book) {adminMapper.addBook(book);
     }
 
     @Override
     public void updateBook(Book book) {
-        bookMapper.update(book);
+        adminMapper.updateBook(book);
     }
 
     @Override
     public void deleteBook(int bookId) {
-        bookMapper.delete(bookId);
+        adminMapper.deleteBook(bookId);
     }
 
 
@@ -67,7 +66,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
         List<User> users = null;
         try {
             // 编写SQL查询语句，获取所有用户信息
-            String sql = "SELECT * FROM user_table";
+            //String sql = "SELECT * FROM user_table";
             users = userMapper.selectList(new QueryWrapper<User>());
         } catch (Exception e) {
             // 异常处理

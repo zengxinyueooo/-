@@ -20,7 +20,7 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements IB
     @Override
     public List<Book> getAllBooks(int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        return BookMapper.getAllBooks();
+        return bookMapper.getAllBooks();
     }
 
     @Override

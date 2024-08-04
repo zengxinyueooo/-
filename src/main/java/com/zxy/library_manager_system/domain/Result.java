@@ -50,4 +50,15 @@ public class Result {
 
     public Result(boolean b, String user_login_successful, User user) {
     }
+
+    public Result(boolean success, String message, Book borrowedBook) {
+        this.flag = success;
+        this.msg = message;
+        this.data = borrowedBook;
+    }
+    public void setSuccess(boolean b) {
+    }
+
+    public void setMessage(String 用户名不能为空) {
+    }
 }

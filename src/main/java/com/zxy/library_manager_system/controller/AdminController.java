@@ -151,7 +151,7 @@ public class AdminController {
             adminService.updateAdmin(admin);
             return new Result(true, "Admin updated successfully");
         } catch (Exception e) {
-            return new Result(false, "Failed to update admin");
+            return new Result(false, "Failed to update admin: " + e.getMessage());
         }
     }
 }

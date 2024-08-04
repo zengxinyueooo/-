@@ -1,15 +1,12 @@
 package com.zxy.library_manager_system.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.zxy.library_manager_system.domain.Admin;
 import com.zxy.library_manager_system.domain.Book;
-import com.zxy.library_manager_system.domain.BorrowInfo;
 import com.zxy.library_manager_system.domain.User;
 import com.zxy.library_manager_system.mapper.BookMapper;
 import com.zxy.library_manager_system.mapper.BorrowMapper;
 import com.zxy.library_manager_system.mapper.UserMapper;
 import com.zxy.library_manager_system.service.IUserService;
-import com.zxy.library_manager_system.domain.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,9 +18,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
         @Autowired
         private UserMapper userMapper;
-        @Autowired
-        BookMapper BookService;
 
+
+        @Autowired
+        private BorrowMapper borrowMapper;
+
+        @Autowired
+        private BookMapper bookMapper;
 
     @Override
     public User login(String username, String password) {
@@ -43,7 +44,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Override
     public void register(User user) {
         // 检查手机号格式
-        if (!isValidPhoneNumber(user.getPhoneNumber())) {
+        if (!isValidPhoneNumber(user.getPhone())) {
             throw new IllegalArgumentException("Invalid phone number format");
         }
 
@@ -76,24 +77,23 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     }
 
     @Override
-    public void borrowBook(int userId, int bookId) {
+    public void borrowBook(int borrowId, String userId, int bookId) {
         Date borrowDate = new Date(); // 获取当前系统时间
-        BorrowMapper.borrowBook(userId, bookId, borrowDate);
-        BookMapper.decreaseBookQuantity(bookId);
+        borrowMapper.borrowBook(borrowId, bookId, Integer.parseInt(userId), borrowDate);
+        bookMapper.decreaseBookQuantity(bookId);
     }
 
     @Override
-    public void returnBook(int userId, int bookId) {
+    public void returnBook(int borrowId, String userId, int bookId) {
         Date returnDate = new Date(); // 获取当前系统时间
-        BorrowMapper.returnBook(userId, bookId, returnDate);
-        BookMapper.increaseBookQuantity(bookId);
+        borrowMapper.returnBook(borrowId, bookId, Integer.parseInt(userId), returnDate);
+        bookMapper.increaseBookQuantity(bookId);
     }
 
     @Override
-    public List<BorrowInfo> getBorrowInfoByUserId(int userId) {
-        return BorrowMapper.getBorrowInfoByUserId(userId);
+    public String getBorrowInfoByUserId(String userId) {
+        return null;
     }
-
 
 
 }

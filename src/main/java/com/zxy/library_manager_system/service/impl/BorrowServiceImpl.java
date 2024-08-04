@@ -1,13 +1,14 @@
 package com.zxy.library_manager_system.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.zxy.library_manager_system.domain.Book;
 import com.zxy.library_manager_system.domain.BorrowInfo;
 import com.zxy.library_manager_system.mapper.BookMapper;
 import com.zxy.library_manager_system.mapper.BorrowMapper;
 import com.zxy.library_manager_system.service.IBorrowService;
-import com.zxy.library_manager_system.domain.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -19,24 +20,37 @@ public class BorrowServiceImpl extends ServiceImpl<BorrowMapper, BorrowInfo > im
     @Autowired
     private BorrowMapper borrowMapper;
 
+    @Autowired
+    private BookMapper bookMapper;
 
-    @Override
-    public void borrowBook(int bookId, int userId) {
+
+    @Transactional
+    public Book borrowBook(int borrow_id, int bookId, int userId) {
         Date borrowDate = new Date(); // 获取当前系统时间
-        BorrowMapper.borrowBook(bookId, userId, borrowDate);
-        // 假设BookMapper.decreaseBookQuantity(bookId)是一个减少图书数量的方法
-        BookMapper.decreaseBookQuantity(bookId);
+        borrowMapper.borrowBook(borrow_id, bookId, userId, borrowDate);
+        bookMapper.decreaseBookQuantity(bookId);
+        // 假设borrowMapper.getBookInfoById(bookId)是一个根据bookId查询书籍信息的方法
+        Book borrowedBook = borrowMapper.getBookInfoById(bookId);
+
+        return borrowedBook;
     }
 
 
+
     @Override
-    public void returnBook(int bookId, int userId, Date borrowDate) {
+    public void returnBook(int borrow_id, int bookId, int userId) {
         Date returnDate = new Date(); // 获取当前系统时间
-        BorrowMapper.returnBook(bookId, userId, returnDate);
+        borrowMapper.returnBook(borrow_id, bookId, userId, returnDate);
     }
 
     @Override
     public List<BorrowInfo> getBorrowInfoByUserId(int userId) {
-        return BorrowMapper.getBorrowInfoByUserId(userId);
+        return null;
+    }
+
+
+    @Override
+    public String getBorrowInfoByUserId(String user_id) {
+        return bookMapper.getBorrowInfoByUserId(user_id);
     }
 }
