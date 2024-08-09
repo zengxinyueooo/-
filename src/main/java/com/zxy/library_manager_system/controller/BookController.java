@@ -60,9 +60,9 @@ public class BookController {
     public ResponseEntity<Result> getAllBooks(@RequestParam int pageNum, @RequestParam int pageSize) {
         List<Book> books = bookService.getAllBooks(pageNum, pageSize);
         if (books != null && !books.isEmpty()) {
-            return ResponseEntity.ok(new Result(true, "Success", (Admin) books));
+            return ResponseEntity.ok(new Result(true, "Success", books));
         } else {
-            return ResponseEntity.ok(new Result(false, "No books found", (Admin) null));
+            return ResponseEntity.ok(new Result(false, "No books found", (List) null));
         }
     }
 

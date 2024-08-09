@@ -41,7 +41,7 @@ public class BorrowController {
     @GetMapping("/getBorrowInfo")
     @ApiOperation(value = "根据用户id查找借阅信息")
     public Result getBorrowInfoByUserId(@RequestParam int userId) {
-        List<BorrowInfo> borrowInfoList = borrowService.getBorrowInfoByUserId(userId);
+        String borrowInfoList = borrowService.getBorrowInfoByUserId(userId);
         return new Result(true, borrowInfoList);
     }
 }

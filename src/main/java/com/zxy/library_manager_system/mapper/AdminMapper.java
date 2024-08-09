@@ -17,19 +17,20 @@ import java.util.List;
 public interface AdminMapper extends BaseMapper<Admin> {
 
 
+
     @Select("SELECT * FROM book")
     List<Book> getAllBooks();
 
     @Select("SELECT * FROM book WHERE book_id = #{bookId}")
-    Book getBookById(@Param("bookId") int book_id);
+    List<Book> getBookById(@Param("bookId") int book_id);
 
     @Insert("INSERT INTO book (book_id, book_author, book_name, book_introduction, book_price, quantity) VALUES " +
             "(#{book.id}, #{book.author}, #{book.name}, #{book.introduction}, #{book.price}, #{book.remain})")
     int addBook(@Param("book")Book book);
 
-    @Update("UPDATE book SET book_author = #{book.author}, book_name = #{book.name}, " +
+    /*@Update("UPDATE book SET book_author = #{book.author}, book_name = #{book.name}, " +
             "book_introduction = #{book.introduction}, book_price = #{book.price}," +
-            " quantity = #{book.remain} WHERE book_id = #{book.id}")
+            " quantity = #{book.remain} WHERE book_id = #{book.id}")*/
     int updateBook(@Param("book") Book book);
 
     @Delete("DELETE FROM book WHERE book_id = #{bookId}")
@@ -39,10 +40,10 @@ public interface AdminMapper extends BaseMapper<Admin> {
     List<User> getAllUsers();
 
     @Select("SELECT * FROM user WHERE user_id = #{userId}")
-    User getUserById(@Param("userId") int user_id);
+    List<User> getUserById(@Param("userId") int user_id);
 
-    @Update("UPDATE user SET user_name = #{user.username}, user_pwd = #{user.password}, user_gender = #{user.gender}," +
-            " name = #{user.name}, user_address = #{user.address}, user_phone = #{user.phone} WHERE user_id = #{user.id}")
+    /*@Update("UPDATE user SET user_name = #{user.username}, user_pwd = #{user.password}, user_gender = #{user.gender}," +
+            " name = #{user.name}, user_address = #{user.address}, user_phone = #{user.phone} WHERE user_id = #{user.id}")*/
     int updateUser(@Param("user") User user);
 
     @Select("SELECT * FROM borrow_info WHERE user_id = #{userId}")
@@ -54,6 +55,6 @@ public interface AdminMapper extends BaseMapper<Admin> {
     @Update("UPDATE admin SET admin_pwd = #{newPassword} WHERE admin_name = #{adminname}")
     int updateAdminPassword(@Param("adminname") String admin_name, @Param("newPassword") String newPassword);
 
-    @Update("UPDATE admin SET admin_name = #{admin.username}, admin_pwd = #{admin.password} WHERE admin_id = #{admin.id}")
+   /* @Update("UPDATE admin SET admin_name = #{admin.username}, admin_pwd = #{admin.password} WHERE admin_id = #{admin.id}")*/
     int updateAdmin(@Param("admin") Admin admin);
 }

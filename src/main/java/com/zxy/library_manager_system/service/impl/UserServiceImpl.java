@@ -1,7 +1,9 @@
 package com.zxy.library_manager_system.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.zxy.library_manager_system.domain.Admin;
 import com.zxy.library_manager_system.domain.Book;
+import com.zxy.library_manager_system.domain.BorrowInfo;
 import com.zxy.library_manager_system.domain.User;
 import com.zxy.library_manager_system.mapper.BookMapper;
 import com.zxy.library_manager_system.mapper.BorrowMapper;
@@ -26,19 +28,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         @Autowired
         private BookMapper bookMapper;
 
+
     @Override
-    public User login(String username, String password) {
-        User admin = userMapper.login(username, password);
-        if (admin != null) {
-            return admin;
-        } else {
-            User user = userMapper.login(username, password);
-            if (user != null) {
-                return user;
-            } else {
-                return null;
-            }
-        }
+    public List<Admin> loginAdmin(String username, String password) {
+        return userMapper.loginAdmin(username, password);
+    }
+
+    @Override
+    public List<User> loginUser(String username, String password) {
+        return userMapper.loginUser(username, password);
     }
 
     @Override
@@ -62,8 +60,26 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     }
 
     @Override
-    public User getUserById(String id) {
-        return userMapper.getUserById(id);
+    public List<User> getUserById(int id) {
+        List<User> users = userMapper.getUserById(id);
+        for (User user : users) {
+            if (user.getUsername() == null) {
+                user.setUsername("default_username");
+            }
+            if (user.getPassword() == null) {
+                user.setPassword("default_password");
+            }
+            if (user.getGender() == null) {
+                user.setGender("unknown");
+            }
+            if (user.getAddress() == null) {
+                user.setAddress("default_address");
+            }
+            if (user.getPhone() == null) {
+                user.setPhone("default_phone");
+            }
+        }
+        return users;
     }
 
     @Override
@@ -77,22 +93,22 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     }
 
     @Override
-    public void borrowBook(int borrowId, String userId, int bookId) {
+    public void borrowBook(int borrowId, int userId, int bookId) {
         Date borrowDate = new Date(); // 获取当前系统时间
-        borrowMapper.borrowBook(borrowId, bookId, Integer.parseInt(userId), borrowDate);
+        borrowMapper.borrowBook(borrowId, bookId, userId, borrowDate);
         bookMapper.decreaseBookQuantity(bookId);
     }
 
     @Override
-    public void returnBook(int borrowId, String userId, int bookId) {
+    public void returnBook(int borrowId, int userId, int bookId) {
         Date returnDate = new Date(); // 获取当前系统时间
-        borrowMapper.returnBook(borrowId, bookId, Integer.parseInt(userId), returnDate);
+        borrowMapper.returnBook(borrowId, bookId, userId, returnDate);
         bookMapper.increaseBookQuantity(bookId);
     }
 
     @Override
-    public String getBorrowInfoByUserId(String userId) {
-        return null;
+    public List<BorrowInfo> getBorrowInfoByUserId(int userId) {
+        return userMapper.getBorrowInfoByUserId(userId);
     }
 
 

@@ -10,11 +10,7 @@ spring:
       matching-strategy: ant_path_matcher
 
 
-page helper:
-  helper-dialect: library-manager-system
-  reasonable: true
-  support-methods-arguments: true
-  params: count=countSql
+
 
 
 knife4j:

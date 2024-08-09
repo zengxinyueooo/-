@@ -1,6 +1,7 @@
 package com.zxy.library_manager_system.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.zxy.library_manager_system.domain.Admin;
 import com.zxy.library_manager_system.domain.Book;
 import com.zxy.library_manager_system.domain.BorrowInfo;
 import com.zxy.library_manager_system.domain.User;
@@ -22,10 +23,6 @@ import java.util.List;
 public interface UserMapper extends BaseMapper<User> {
 
 
-    //登录
-    @Select("select * from user where user_name = #{uname} and user_pwd = #{pwd}")
-    User login(@Param("uname")String user_name, @Param("pwd")String user_pwd);
-
 
     @Insert("insert into user(user_id, user_name, user_pwd, name, user_gender, user_address, user_phone) " +
             "values(#{user.id}, #{user.username}, #{user.password}, #{user.name}, #{user.gender}, #{user.address}, #{user.phone})")
@@ -37,25 +34,25 @@ public interface UserMapper extends BaseMapper<User> {
 
 
     @Select("select * from user where user_id = #{id}")
-    User getUserById(@Param("id") String user_id);
+    List<User> getUserById(@Param("id") int user_id);//select * 的 返回的是List类型 不是User类型
 
 
-    @Update("update user set user_name = #{user.username}, user_pwd = #{user.password}, name = #{user.name}," +
-            " user_gender = #{user.gender}, user_address = #{user.address}, user_phone = #{user.phone} where user_id = #{user.id}")
+    /*@Update("update user set user_name = #{user.username}, user_pwd = #{user.password}, name = #{user.name}," +
+            " user_gender = #{user.gender}, user_address = #{user.address}, user_phone = #{user.phone} where user_id = #{user.id}")*/
     void updateUserInfo(@Param("user") User user);
 
 
     @Select("select * from book where book_name like #{book_name}")
     List<Book> searchBookByName(String book_name);
 
-    @Select("select * from book where book_id like #{bookId}")
-    List<BorrowInfo> getBorrowInfoByUserId(@Param("bookId") int book_id);
+    @Select("select * from borrow_info where user_id = #{userId}")
+    List<BorrowInfo> getBorrowInfoByUserId(@Param("userId") int user_id);
 
     @Insert("insert into borrow_info(user_id, book_id, borrow_date) values(#{userId}, #{bookId}, #{borrowDate})")
-    void borrowBook(@Param("userId") String  user_id, @Param("bookId") int book_id, @Param("borrowDate") Date borrow_date);
+    void borrowBook(@Param("userId") int  user_id, @Param("bookId") int book_id, @Param("borrowDate") Date borrow_date);
 
     @Update("update borrow_info set return_date = #{returnDate} where borrow_id = #{borrowId} and user_id = #{userId} and book_id = #{bookId}")
-    void returnBook(@Param("borrowId") int borrow_id, @Param("userId") String  user_id, @Param("bookId") int book_id);
+    void returnBook(@Param("borrowId") int borrow_id, @Param("userId") int  user_id, @Param("bookId") int book_id);
 
     @Update("update book set quantity = quantity - 1 where bookId = #{bookId}")
     void decreaseBookQuantity(@Param("bookId") int bookId);
@@ -64,4 +61,9 @@ public interface UserMapper extends BaseMapper<User> {
     void increaseBookQuantity(@Param("bookId") int bookId);
 
 
+    @Select("select * from admin where admin_name = #{uname} and admin_pwd = #{pwd}")
+    List<Admin> loginAdmin(@Param("uname")String admin_name, @Param("pwd")String admin_pwd);
+
+    @Select("select * from user where user_name = #{uname} and user_pwd = #{pwd}")
+    List<User> loginUser(@Param("uname")String user_name, @Param("pwd")String user_pwd);
 }

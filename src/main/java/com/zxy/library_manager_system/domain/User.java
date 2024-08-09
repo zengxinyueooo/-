@@ -29,29 +29,29 @@ import java.util.Collection;
 public class User {
     @ApiModelProperty(value = "用户ID",required = true)
     @TableId(value = "user_id", type = IdType.AUTO)
-    private String id;
+    private int id;
 
-    @ApiModelProperty(value = "用户名",required = true)
+    @ApiModelProperty(value = "用户名",required = true, example = "")
     @TableField(value = "user_name")
     private String username;
 
-    @ApiModelProperty(value = "密码",required = true)
+    @ApiModelProperty(value = "密码",required = true, example = "")
     @TableField(value = "user_pwd")
     private String password;
 
-    @ApiModelProperty(value = "姓名",required = true)
+    @ApiModelProperty(value = "姓名",required = true, example = "")
     @TableField(value = "name")
     private String name;
 
-    @ApiModelProperty(value = "性别",required = true) //性别：M男 F女 U未知 枚举类型
+    @ApiModelProperty(value = "性别",required = true, example = "") //性别：M男 F女 U未知 枚举类型
     @TableField(value = "user_gender")
     private String gender;
 
-    @ApiModelProperty(value = "地址",required = true)
+    @ApiModelProperty(value = "地址",required = true, example = "")
     @TableField(value = "user_address")
     private String address;
 
-    @ApiModelProperty(value = "电话号码",required = true)
+    @ApiModelProperty(value = "电话号码",required = true, example = "")
     @TableField(value = "user_phone")
     private String phone;
 

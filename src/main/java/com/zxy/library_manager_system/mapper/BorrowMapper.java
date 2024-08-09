@@ -21,7 +21,7 @@ public interface BorrowMapper extends BaseMapper<BorrowInfo > {
      void returnBook(@Param("borrowId") int borrow_id, @Param("bookId") int book_id, @Param("userId") int user_id, @Param("returnDate") Date return_date);
 
     @Select("select * from book where user_id = #{user_id}")
-     String getBorrowInfoByUserId(@Param("user_id") String user_id);
+     String getBorrowInfoByUserId(@Param("user_id") int user_id);
 
     @Select("SELECT * FROM book WHERE book_id = #{bookId}")
     Book getBookInfoById(@Param("bookId") int book_id);

@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
-import java.util.List;
 
 @Service
 public class BorrowServiceImpl extends ServiceImpl<BorrowMapper, BorrowInfo > implements IBorrowService {
@@ -43,14 +42,10 @@ public class BorrowServiceImpl extends ServiceImpl<BorrowMapper, BorrowInfo > im
         borrowMapper.returnBook(borrow_id, bookId, userId, returnDate);
     }
 
-    @Override
-    public List<BorrowInfo> getBorrowInfoByUserId(int userId) {
-        return null;
-    }
 
 
     @Override
-    public String getBorrowInfoByUserId(String user_id) {
+    public String getBorrowInfoByUserId(int user_id) {
         return bookMapper.getBorrowInfoByUserId(user_id);
     }
 }

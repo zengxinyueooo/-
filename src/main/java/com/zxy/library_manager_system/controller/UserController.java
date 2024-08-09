@@ -1,16 +1,14 @@
 package com.zxy.library_manager_system.controller;
 
-import com.zxy.library_manager_system.domain.Book;
-import com.zxy.library_manager_system.domain.BorrowInfo;
-import com.zxy.library_manager_system.domain.User;
+import com.zxy.library_manager_system.domain.*;
 import com.zxy.library_manager_system.mapper.UserMapper;
 import com.zxy.library_manager_system.service.IUserService;
-import com.zxy.library_manager_system.domain.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -26,11 +24,16 @@ public class UserController {
     @PostMapping("/login")
     @ApiOperation("登录")
     public Result login(@RequestParam String username, @RequestParam String password) {
-        User user = userService.login(username, password);
-        if (user != null) {
-            return new Result(true, "Login successful", user);
+        List<Admin> admin = userService.loginAdmin(username, password);
+        if (admin != null && !admin.isEmpty()) {
+            return new Result(true, "Admin login successful", admin);
         } else {
-            return new Result(false, "Login failed");
+            List<User> user = userService.loginUser(username, password);
+            if (user != null && !user.isEmpty()) {
+                return new Result(true, "User login successful", user);
+            } else {
+                return new Result(false, "Login failed");
+            }
         }
     }
 
@@ -40,7 +43,7 @@ public class UserController {
         Result result = new Result();
 
         // 检查必填字段是否为空
-        if (user.getId() == null || user.getId().isEmpty()) {
+        if (user.getId() == 0) {
             result.setSuccess(false);
             result.setMessage("Id不能为空");
             return result;
@@ -92,10 +95,10 @@ public class UserController {
 
     @GetMapping("/getUserById")
     @ApiOperation("根据ID查看用户信息")
-    public Result getUserById(@RequestParam String id) {
-        User user = userService.getUserById(id);
-        if (user != null) {
-            return new Result(true, user);
+    public Result getUserById(@RequestParam int id) {
+        List<User> users = userService.getUserById(id);
+        if (!users.isEmpty()) {
+            return new Result(true, users);
         } else {
             return new Result(false, "User not found");
         }
@@ -116,19 +119,28 @@ public class UserController {
     @ApiOperation("根据书名搜索书籍")
     public Result searchBookByName(@RequestParam String name) {
         List<Book> books = userService.searchBookByName(name);
-        return new Result(true, books);
+
+        // 过滤掉书籍列表中的null值
+        List<Book> filteredBooks = new ArrayList<>();
+        for (Book book : books) {
+            if (book != null) {
+                filteredBooks.add(book);
+            }
+        }
+
+        return new Result(true, filteredBooks);
     }
 
     @GetMapping("/getBorrowInfo")
     @ApiOperation("根据用户ID获取用户借阅信息")
-    public Result getBorrowInfoByUserId(@RequestParam String userId) {
-        String borrowInfoList = userService.getBorrowInfoByUserId(userId);
+    public Result getBorrowInfoByUserId(@RequestParam int userId) {
+        List<BorrowInfo> borrowInfoList = userService.getBorrowInfoByUserId(userId);
         return new Result(true, borrowInfoList);
     }
 
     @PostMapping("/returnBook")
     @ApiOperation("归还书籍")
-    public Result returnBook(@RequestParam int borrow_id, @RequestParam String userId, @RequestParam int bookId) {
+    public Result returnBook(@RequestParam int borrow_id, @RequestParam int userId, @RequestParam int bookId) {
         try {
             userService.returnBook(borrow_id, userId, bookId);
             return new Result(true, "Book returned successfully");
@@ -139,7 +151,7 @@ public class UserController {
 
     @PostMapping("/borrowBook")
     @ApiOperation("借阅书籍")
-    public Result borrowBook(@RequestParam int borrowId, @RequestParam String userId, @RequestParam int bookId) {
+    public Result borrowBook(@RequestParam int borrowId, @RequestParam int userId, @RequestParam int bookId) {
         try {
             userService.borrowBook(borrowId, userId, bookId);
             return new Result(true, "Book borrowed successfully");

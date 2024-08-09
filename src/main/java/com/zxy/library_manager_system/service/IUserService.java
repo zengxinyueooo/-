@@ -1,7 +1,9 @@
 package com.zxy.library_manager_system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.zxy.library_manager_system.domain.Admin;
 import com.zxy.library_manager_system.domain.Book;
+import com.zxy.library_manager_system.domain.BorrowInfo;
 import com.zxy.library_manager_system.domain.User;
 
 import java.util.List;
@@ -9,22 +11,23 @@ import java.util.List;
 public interface IUserService extends IService<User> {
 
 
-    User login(String username, String password);
+    List<Admin> loginAdmin(String username, String password);
+    List<User> loginUser(String username, String password);
 
     void register(User user);
 
 
-    User getUserById(String id);
+    List<User> getUserById(int id);
 
     void updateUserInfo(User user);
 
     List<Book> searchBookByName(String name);
 
-    void borrowBook(int borrowId, String userId, int bookId);
+    void borrowBook(int borrowId, int userId, int bookId);
 
-    void returnBook(int borrow_id, String  userId, int bookId);
+    void returnBook(int borrow_id, int  userId, int bookId);
 
-    String getBorrowInfoByUserId(String userId);
+    List<BorrowInfo> getBorrowInfoByUserId(int userId);
 
 
 }

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxy.library_manager_system.mapper.UserMapper">
+
+    <!--//namespace的值是dao接口的全限定名称（即在哪个包下面要全部写出来
+    //增删改查子标签的id要和接口中的方法名一-->
+    <update id="updateUserInfo" parameterType="com.zxy.library_manager_system.domain.User">
+
+        UPDATE user
+        <set>
+            <if test="user.password != null"> user_pwd = #{user.password}, </if>
+            <if test="user.username != null"> user_name = #{user.username}, </if>
+            <if test="user.name != null"> name = #{user.name}, </if>
+            <if test="user.gender != null"> user_gender = #{user.gender}, </if>
+            <if test="user.address != null"> user_address = #{user.address}, </if>
+            <if test="user.phone != null"> user_phone = #{user.phone} </if>
+        </set><!--三处分别指的是：类中的变量名 数据库表中的列名 类中的变量名 -->
+        WHERE user_id = #{user.id}
+
+    </update>
+
+</mapper>

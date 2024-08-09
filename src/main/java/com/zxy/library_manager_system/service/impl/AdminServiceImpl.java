@@ -1,27 +1,16 @@
 package com.zxy.library_manager_system.service.impl;
 
-import com.baomidou.mybatisplus.core.assist.ISqlRunner;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.github.pagehelper.IPage;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.zxy.library_manager_system.domain.*;
 import com.zxy.library_manager_system.mapper.AdminMapper;
 import com.zxy.library_manager_system.mapper.BookMapper;
 import com.zxy.library_manager_system.mapper.UserMapper;
 import com.zxy.library_manager_system.service.IAdminService;
-import org.apache.ibatis.annotations.Select;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Properties;
 
 // AdminServiceImpl.java
 @Service
@@ -42,7 +31,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     }
 
 
-    public Book getBookById(int id) {
+    public List<Book> getBookById(int id) {
         return adminMapper.getBookById(id);
     }
 
@@ -75,8 +64,16 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     }
 
     @Override
-    public User getUserById(int userId) {
-        return adminMapper.getUserById(userId);
+    public List<User> getUserById(int userId) {
+        List<User> users = null;
+    try {
+        // 使用MyBatis的Mapper接口执行查询
+        users = userMapper.getUserById(userId);
+    } catch (Exception e) {
+        // 异常处理
+        e.printStackTrace();
+    }
+    return users;
     }
 
     @Override

@@ -40,7 +40,7 @@ public class Book {
 
     @ApiModelProperty(value = "价格", required = true)
     @TableField(value = "book_price")
-    private Integer price;
+    private Double price;
 
     @ApiModelProperty(value = "简介", required = true)
     @TableField(value = "book_introduction")

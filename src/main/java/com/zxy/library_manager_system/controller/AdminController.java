@@ -1,8 +1,10 @@
 package com.zxy.library_manager_system.controller;
 
+
 import com.zxy.library_manager_system.domain.*;
 import com.zxy.library_manager_system.service.IAdminService;
 import com.zxy.library_manager_system.service.IBookService;
+import com.zxy.library_manager_system.service.IUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,21 +25,22 @@ public class AdminController {
     @Autowired
     private IBookService bookService;
 
+
     @GetMapping("/books/all")
     @ApiOperation(value = "获取全部书籍")
     public ResponseEntity<Result> getAllBooks(@RequestParam int pageNum, @RequestParam int pageSize) {
         List<Book> books = bookService.getAllBooks(pageNum, pageSize);
         if (books != null && !books.isEmpty()) {
-            return ResponseEntity.ok(new Result(true, "Success", (Admin) books));
+            return ResponseEntity.ok(new Result(true, "Success",  books));
         } else {
-            return ResponseEntity.ok(new Result(false, "No books found", (Admin) null));
+            return ResponseEntity.ok(new Result(false, "No books found", (List) null));
         }
     }
 
     @GetMapping("/books/{id}")
     @ApiOperation(value = "根据ID获取书籍")
     public Result getBookById(@PathVariable int id) {
-        Book book = adminService.getBookById(id);
+        List<Book> book = adminService.getBookById(id);
         if (book != null) {
             return new Result(true, book);
         } else {
@@ -81,7 +84,7 @@ public class AdminController {
     @GetMapping("/user/{userId}")
     @ApiOperation(value = "根据ID获取用户")
     public Result getUserById(@PathVariable int userId) {
-        User user = adminService.getUserById(userId);
+        List<User> user = adminService.getUserById(userId);
         if (user != null) {
             return new Result(true, user);
         } else {

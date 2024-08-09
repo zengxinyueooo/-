@@ -35,7 +35,7 @@ public interface BookMapper extends BaseMapper<Book> {
     Book getById(@Param("id") int book_id);
 
     @Select("SELECT * FROM borrow_info WHERE user_id = #{id}")
-    String getBorrowInfoByUserId(@Param("id") String user_id);
+    String getBorrowInfoByUserId(@Param("id") int user_id);
 
     @Select("SELECT * FROM book")
     List<Book> getAllBooks();

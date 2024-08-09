@@ -1,10 +1,10 @@
 package com.zxy.library_manager_system.domain;
 
-import com.zxy.library_manager_system.domain.Admin;
-import com.zxy.library_manager_system.domain.User;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+
+import java.util.List;
 
 /**
  * @author .29.
@@ -15,7 +15,7 @@ import lombok.Data;
 //使用lombok快速开发
 @Data
 @ApiModel(value = "返回类型")
-public class Result {
+public class Result<T> {
     @ApiModelProperty(value = "是否成功", example = "true")
     private boolean flag;
     @ApiModelProperty(value = "数据")
@@ -32,6 +32,29 @@ public class Result {
         this.data = data;
     }
 
+    public Result(boolean flag, List<T> data) {
+        this.flag = flag;
+        this.data = data;
+    }
+    public Result(boolean success, String message, List<T> data) {
+        this.flag = success;
+        this.msg = message;
+        this.data = data;
+    }
+
+   /* public Result(boolean success, String message, List<Admin> data) {
+        this.flag = success;
+        this.msg = message;
+        this.data = data;
+    }
+
+    public Result(boolean success, String message, List<User> data) {
+        this.flag = success;
+        this.msg = message;
+        this.data = data;
+    }*/
+
+
     public Result() {
     }
 
@@ -45,8 +68,6 @@ public class Result {
         this.msg = msg;
     }
 
-    public Result(boolean b, String admin_login_successful, Admin admin) {
-    }
 
     public Result(boolean b, String user_login_successful, User user) {
     }
